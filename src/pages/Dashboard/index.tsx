@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import { View, Image, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
