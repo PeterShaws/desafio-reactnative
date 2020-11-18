@@ -76,9 +76,24 @@ const CartProvider: React.FC = ({ children }) => {
     [products, storeProducts],
   );
 
-  const decrement = useCallback(async id => {
-    // TODO DECREMENTS A PRODUCT QUANTITY IN THE CART
-  }, []);
+  const decrement = useCallback(
+    async id => {
+      const productIndex = products.findIndex(product => product.id === id);
+      const oldProduct = products[productIndex];
+      let newProducts: Product[];
+      if (oldProduct.quantity === 1) {
+        newProducts = products.filter(product => product.id !== id);
+      } else {
+        const newQuantity = oldProduct.quantity - 1;
+        const newProduct: Product = { ...oldProduct, quantity: newQuantity };
+        newProducts = [...products];
+        newProducts[productIndex] = newProduct;
+      }
+      setProducts(newProducts);
+      await storeProducts(newProducts);
+    },
+    [products, storeProducts],
+  );
 
   const value = React.useMemo(
     () => ({ addToCart, increment, decrement, products }),
